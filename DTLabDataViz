@@ -1,0 +1,56 @@
+#DT Lab Python Data Viz Wechat Group
+#DT君 Python学习小组
+#Joined 2017-06-28
+
+#### Week 1 Nolli Plot ####
+
+> Nolli Plot Instruction
+https://mp.weixin.qq.com/s/SVAlcgeDLuAXGB_EtxL10Q
+
+> Setting up Python Environment (Optional)
+https://mp.weixin.qq.com/s/t9oQTVkBH0zTSEksPvl8NQ
+
+> Package management system: 
+
+pip 
+https://pip.pypa.io/en/stable/installing/#upgrading-pip
+
+Conda/Miniconda 
+https://conda.io/docs/
+
+"Package, dependency and environment management for any language: Python, R, Ruby, Lua, Scala, Java, Javascript, C/ C++, FORTRAN
+Conda is an open source package management system and environment management system for installing multiple versions of 
+software packages and their dependencies and switching easily between them. It works on Linux, OS X and Windows, 
+and was created for Python programs but can package and distribute any software.
+
+Miniconda is a small “bootstrap” version that includes only conda, Python, and the packages they depend on. 
+Over 720 scientific packages and their dependencies can be installed individually from the Continuum repository 
+with the “conda install” command."
+
+> Setting up Environmental Variables (for win10)
+# Debug since Terminal prompt " 'conda' is not recognized as an internal or external command... "
+PATH variable: Control Panel\System and Security\System\Advanced System Settings > [Environmental Variables...] > System Variables > path
+
+> install osmnx with conda
+while in terminal:
+conda install -c conda-forge osmnx
+
+> install packages in pip
+https://packaging.python.org/tutorials/installing-packages/#use-pip-for-installing
+
+> Code for Nolli Plot
+#### Start ####
+import osmnx as ox
+from Ipython.display import Image
+ox.config(log_file = True, log_console = True, use_cache = True)
+
+# config the inline image display
+img_folder = 'images'
+extension = 'png'
+size = 350
+
+place = 'Emory'
+point = (33.785, -84.324)
+fig, ax = ox.plot_figure_ground(point = point, filename = place, network_type = 'all', dpi = 150)
+Image('{}/{}.{}'.format(image_folder, place, extension), height=size, width = size)
+#### End of Code ####
