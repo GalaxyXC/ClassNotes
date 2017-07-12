@@ -54,3 +54,29 @@ point = (33.785, -84.324)
 fig, ax = ox.plot_figure_ground(point = point, filename = place, network_type = 'all', dpi = 150)
 Image('{}/{}.{}'.format(image_folder, place, extension), height=size, width = size)
 #### End of Code ####
+
+
+
+
+#### Week 2  ####
+> Wechat Friend Signature
+Instruction https://mp.weixin.qq.com/s/0Bw8QUo1YfWZR_Boeaxu_Q
+
+> $PYTHONPATH
+(http://www.bdnyc.org/2012/09/editing-pythonpath-to-import-modules/)
+Path searching behavior:
+Python looks for modules in three places when it starts up:
+1.) The directory that python or ipython was launched from
+2.) A default location relative to where the actual python executable is- for instance, my active python is /.../Versions/7.3/bin/python so all the python modules are stored in directories below ../lib/python2.7/
+3.) $PYTHONPATH, if it exists. 
+
+Edit PYTHONPATH
+#code
+import sys
+sys.path.append("path/to/Modules")
+print sys.path
+#end of code
+
+> switch lines in terminal
+<space><backslash><enter>
+
