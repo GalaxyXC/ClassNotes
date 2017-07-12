@@ -3,7 +3,6 @@
 #Joined 2017-06-28
 
 #### Week 1 Nolli Plot ####
-
 > Nolli Plot Instruction
 https://mp.weixin.qq.com/s/SVAlcgeDLuAXGB_EtxL10Q
 
@@ -56,11 +55,9 @@ Image('{}/{}.{}'.format(image_folder, place, extension), height=size, width = si
 #### End of Code ####
 
 
-
-
 #### Week 2  ####
-> Wechat Friend Signature
-Instruction https://mp.weixin.qq.com/s/0Bw8QUo1YfWZR_Boeaxu_Q
+> Wechat Friend Signature to word cloud Instruction
+https://mp.weixin.qq.com/s/0Bw8QUo1YfWZR_Boeaxu_Q
 
 > $PYTHONPATH
 (http://www.bdnyc.org/2012/09/editing-pythonpath-to-import-modules/)
@@ -79,4 +76,89 @@ print sys.path
 
 > switch lines in terminal
 <space><backslash><enter>
+
+
+#### Code ####
+# -*- coding: utf-8  -*-
+
+import sys
+sys.path.append("g:\IDE\Conda\Lib\site-packages")
+print (sys.path)
+
+import itchat
+import re
+import jieba
+import matplotlib.pyplot as plt
+import numpy as np
+from pandas import DataFrame
+from wordcloud import WordCloud, ImageColorGenerator
+import PIL.Image as Image 
+
+
+#login wechat account
+itchat.login()
+#get info and create a json file
+friends = itchat.get_friends(update=True)[0:]
+
+#init var's values
+male = female = other = 0
+#start w/ friends[1], since friend[0] is self
+for i in friends[1:]:
+    sex = i["Sex"]
+    if sex == 1:
+        male += 1
+    elif sex == 2:
+        female += 1
+    else:
+        other +=1
+
+# count of all friends
+total = len(friends[1:])
+# print
+print("Male: %.2f%%" % (float(male)/total*100) + "\n" + "Female: %.2f%%" % (float(female) / total * 100) + "\n" + "Other  %.2f%%" % (float(other) / total * 100))
+
+#helper method: fetch values for variable [var]
+def get_var(var):
+    variable = []
+    for i in friends:
+        value = i[var]
+        variable.append(value)
+    return variable
+
+# get info and save as csv
+NickName = get_var("NickName")
+Sex = get_var('Sex')
+Province = get_var('Province')
+City = get_var('City')
+Signature = get_var('Signature')
+
+data = {'NickName': NickName, 'Sex': Sex, 'Province': Province, 'City': City, 'Signature': Signature}
+frame = DataFrame(data)
+frame.to_csv('data_WechatFriendInfo.csv', index=True)
+
+#Create list for signatures
+siglist = []
+for i in friends:
+    signature = i["Signature"].strip().replace("span","").replace("class","").replace("emoji","")
+    rep = re.compile("1f\d+\w*|[<>/=]")
+    signature = rep.sub("", signature)
+    siglist.append(signature)
+text = "".join(siglist)
+
+#create word list after splitting
+wordlist = jieba.cut(text, cut_all=True)
+word_space_split = " ".join(wordlist)
+
+#ploting
+coloring = np.array(Image.open("G:/IDE/workspace/DTLabDataViz/images/wechat.jpg"))
+my_wordcloud = WordCloud(background_color="white", max_words=2000,
+                         mask=coloring, max_font_size=60, random_state=42, scale=2,
+                         font_path="C:/Windows/Fonts/STXINGKA.TTF").generate(word_space_split)
+
+image_colors = ImageColorGenerator(coloring)
+plt.imshow(my_wordcloud.recolor(color_func=image_colors))
+plt.imshow(my_wordcloud)
+plt.axis("off")
+plt.show()
+#### End of Code ####
 
