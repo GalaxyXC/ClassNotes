@@ -1,9 +1,9 @@
-R graph Chinese encoding:
+# R graph Chinese encoding:
 https://cran.rstudio.com/web/packages/showtext/vignettes/introduction.html
 
-ggplot2/tidyverse
-http://ggplot2.tidyverse.org/reference/geom_histogram.html
+# tidyverse/ggplot2
+http://ggplot2.tidyverse.org/reference/index.html#section-plot-basics
 
-R cheat sheet
+# R cheat-sheet
 
-R split-apply-combine
+# split-apply-combine
