@@ -1,6 +1,7 @@
 Python编码规范(PEP8)及奇技淫巧(不断更新)
 http://blog.csdn.net/mrlevo520/article/details/69155636
 
+#### Week 4 ####
 计算器code from 哈士奇说喵：
 http://blog.csdn.net/mrlevo520/article/details/51812096
 tkinter is de-facto python GUI
@@ -128,3 +129,86 @@ scr2.pack(side=LEFT,fill=Y)
 #-------------------root.mainloop()------------------
 
 root.mainloop()
+
+
+
+#### Week 5 - Translation GUI ####
+Instruction: http://blog.csdn.net/MrLevo520/article/details/51674188
+
+# How to check my header:
+webpage (chrome) > F12 (inspect elements) > Network > Click one of requests > Request URL & Request METHOD & Request [Headers]
+My header:
+Request Method:GET
+Content-Encoding:gzip
+Referer:http://blog.csdn.net/horseinch/article/details/51720630
+User-Agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36
+
+# Encoding/Decoding/Codec:
+Python 3.x: byte/str (ENG) - http://eli.thegreenplace.net/2012/01/30/the-bytesstr-dichotomy-in-python-3
+(CHN) - http://www.ituring.com.cn/article/1116
+Encoding - http://www.ituring.com.cn/article/1115
+
+
+
+
+
+Notes on Python 3.6 vs 2.7:
+
+1. urllib package diff.
+Python3's urllib package vs Python2.x's urllib, urllib2, requests packages: http://blog.csdn.net/permike/article/details/52437492
+urllib.request documentation: https://docs.python.org/3.6/library/urllib.request.html#module-urllib.request
+
+changes in code
+import urllib, urllib2 --> import urllib.request
+urllib2.Request --> urllib.request.Request
+urllib2.urlopen --> urllib.request.urlopen
+
+
+2. name 'raw_input' is not defined
+input() replaced raw_input() in Python 3.x
+
+3. Python 3.x doesn't allow concat str to byte
+
+
+#### Code ####
+# -*- coding: utf-8 -*-
+
+# in python 2.x
+#import urllib2
+#import urllib  # python2.7才需要两个urllib
+# in python 3
+import urllib.request
+
+import json
+while True:
+    content = raw_input("请输入需要翻译的内容：")  # 系统捕获输入，就是命令框会弹出提示，需要你进行手动输入
+    if content == 'q':  # 输入q退出while循环
+        break
+
+    url = "http://fanyi.youdao.com/translate?smartresult=dict&smartresult=rule&smartresult=ugc&sessionFrom=null"
+    data = {}  # 构造data，里面构造参数传入
+    data['type'] = 'AUTO'
+    data['i']=content
+    data['doctype'] = 'json' 
+    data['xmlVersion'] = '1.8'
+    data['keyfrom'] = 'fanyi.web'
+    data['ue'] = 'UTF-8'
+    data['action'] = 'FY_BY_ENTER'
+    data['typoResult'] = 'true'
+
+    data = urllib.urlencode(data).encode('utf-8')  # 将构造的data编码
+    req = urllib2.Request(url)  # 向浏览器发出请求
+    response = urllib2.urlopen(req, data)   # 带参请求，返回执行结果
+    html = response.read().decode('utf-8')
+    # print(html)  # 可以取消print的注释，查看其中效果，这边获取的结果是进行解析
+
+    target = json.loads(html)   # 以json形式载入获取到的html字符串
+
+    print "翻译的内容是："+target['translateResult'][0][0]['tgt'].encode('utf-8')
+
+
+# 请输入需要翻译的内容：test
+# 翻译的内容是：测试
+# 请输入需要翻译的内容：测试
+# 翻译的内容是：test
+# 请输入需要翻译的内容：q
