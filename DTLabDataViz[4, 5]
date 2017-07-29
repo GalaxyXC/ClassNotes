@@ -135,6 +135,8 @@ root.mainloop()
 #### Week 5 - Translation GUI ####
 Instruction: http://blog.csdn.net/MrLevo520/article/details/51674188
 
+urllib CHN: http://blog.csdn.net/beiji_nanji/article/details/7487472
+
 # How to check my header:
 webpage (chrome) > F12 (inspect elements) > Network > Click one of requests > Request URL & Request METHOD & Request [Headers]
 My header:
@@ -150,13 +152,12 @@ Encoding - http://www.ituring.com.cn/article/1115
 
 
 
-
-
 Notes on Python 3.6 vs 2.7:
 
 1. urllib package diff.
 Python3's urllib package vs Python2.x's urllib, urllib2, requests packages: http://blog.csdn.net/permike/article/details/52437492
 urllib.request documentation: https://docs.python.org/3.6/library/urllib.request.html#module-urllib.request
+
 
 changes in code
 import urllib, urllib2 --> import urllib.request
@@ -212,3 +213,120 @@ while True:
 # 请输入需要翻译的内容：测试
 # 翻译的内容是：test
 # 请输入需要翻译的内容：q
+
+
+# GUI Code
+
+#tkinter documentation
+
+python doc: https://docs.python.org/3.6/library/tkinter.html
+tkinter ref: https://infohost.nmt.edu/tcc/help/pubs/tkinter/web/index.html
+CHN: http://www.cnblogs.com/kaituorensheng/p/3287652.html
+
+
+
+# -*- coding: utf-8 -*-
+#Author HaShiQiShuoMiao - http://blog.csdn.net/MrLevo520/article/details/51674188
+#Edited by Liansai Dong to accommodate Python 3.6 environment
+#Python 3.6
+
+
+import json
+import urllib.request
+import urllib.parse
+
+import tkinter as tk
+
+root = tk.Tk()
+root.title('[Translator]')
+root.geometry()
+Label_root=tk.Label(root,text='Translator')
+
+def Translate(string1):
+    content = string1
+    
+    url = "http://fanyi.youdao.com/translate?smartresult=dict&smartresult=rule&smartresult=ugc&sessionFrom=null"
+    data = {}  # 构造data，里面构造参数传入
+    data['type'] = 'AUTO'
+    data['i']=content
+    data['doctype'] = 'json' 
+    data['xmlVersion'] = '1.8'
+    data['keyfrom'] = 'fanyi.web'
+    data['ue'] = 'UTF-8'
+    data['action'] = 'FY_BY_ENTER'
+    data['typoResult'] = 'true'
+    
+    #print(data) 
+    
+    req = urllib.request.Request(url)  # 向浏览器发出请求
+    
+    user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+    referer='http://www.zhihu.com/articles'
+    req.add_header("User-Agent",user_agent)
+    req.add_header('Referer',referer)
+    
+    data = urllib.parse.urlencode(data).encode('utf-8') #encode 'data'
+    response = urllib.request.urlopen(req, data)   # 带参请求，返回执行结果
+    html = response.read()
+    
+    target = json.loads(html)
+    contentTranslated = target['translateResult'][0][0]['tgt']
+    return contentTranslated
+
+def TranslateClicked(): #Rules
+    Ans.insert(tk.END, str(rawText.get()) + ' >>> ' + Translate(rawText.get()))
+
+def Clea():
+    input_num_first.delete(0,tk.END)#Delete: substitute with blank
+    Ans.delete(0,tk.END)#Delete: substitute with 0
+
+
+
+#----------------------Frame: Input--------------------
+frame_input = tk.Frame(root)
+Label_input=tk.Label(frame_input, text='请输入需要翻译的内容：', font=('',10))
+rawText = tk.StringVar()
+input_num_first = tk.Entry(frame_input, textvariable=rawText)
+
+
+#---------------------Frame: Result---------------------
+frame_output = tk.Frame(root)
+Label_output=tk.Label(frame_output, text='>>>', font=('',10))
+Ans = tk.Listbox(frame_output, height=5,width=30)#Listbox: Automatic line wrap
+
+
+#-----------------------Button-----------------------
+
+calc = tk.Button(frame_output,text='=', command=TranslateClicked)
+cle = tk.Button(frame_output,text='C', command=Clea)
+
+
+#---------------------Scrollbar-------------------
+scr2 = tk.Scrollbar(frame_output)
+Ans.configure(yscrollcommand = scr2.set)
+scr2['command']=Ans.yview
+
+
+#-------------------------GUI------------------------
+Label_root.pack(side=tk.TOP)
+frame_input.pack(side=tk.TOP)
+Label_input.pack(side=tk.LEFT)
+
+input_num_first.pack(side=tk.LEFT)
+
+frame_output.pack(side=tk.TOP)
+Label_output.pack(side=tk.LEFT)
+calc.pack(side=tk.LEFT)
+cle.pack(side=tk.LEFT)
+Ans.pack(side=tk.LEFT)
+scr2.pack(side=tk.LEFT,fill=tk.Y)
+
+#-------------------root.mainloop()------------------
+
+root.mainloop()
+
+
+
+
+
+
