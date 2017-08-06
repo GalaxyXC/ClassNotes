@@ -325,8 +325,49 @@ scr2.pack(side=tk.LEFT,fill=tk.Y)
 
 root.mainloop()
 
+# packing code into executables
+Python 3.6
+cx_Freeze: .py code to .exe excutables
+pyinstaller is a good lib, but it has not supported python 3.6 yet.
 
 
+Steps
+> pip install cx_Freeze  # making sure ../Conda/Lib/site-packages is in $PATH
+> in terminal, enter ../Conda/Script, run:
+    python cxfreeze-postinstall
+> copy file in directory, run:
+    cxfreeze xxx.py --target-dir dist
+
+OR edit 'setup.py' and run in cmd:
+    python setup.py build
+
+# Code
+# setup.py
+import os
+import sys
+from cx_Freeze import setup, Executable
+
+# Dependencies are automatically detected, but it might need fine tuning.
+#build_exe_options = {"packages": ["os"], "excludes": ["tkinter"]}
+build_exe_options = {'includes':["tkinter"]}
 
 
+os.environ['TCL_LIBRARY'] = r'G:\IDE\Conda\tcl\tcl8.6'
+os.environ['TK_LIBRARY'] = r'G:\IDE\Conda\tcl\tk8.6'
 
+
+includes      = []
+include_files = [r'G:\IDE\Conda\DLLs\tcl86t.dll', 
+                 r'G:\IDE\Conda\DLLs\tk86t.dll']
+
+# GUI applications require a different base on Windows (the default is for a
+# console application).
+base = None
+if sys.platform == "win32":
+    base = "Win32GUI"
+
+setup(  name = "translatorGUI01",
+        version = "0.1",
+        description = "Bonjour!",
+        options = {"build_exe": {"includes": includes, "include_files": include_files}},
+        executables = [Executable("translatorGUI.py", base=base)])
