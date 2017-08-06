@@ -329,4 +329,8 @@ wc.to_file('mymusic2.png')  # 把词云保存下来
 
 #### End of Code ####
 
+#### Week 5 - Login Scripts ####
+163mail - http://blog.csdn.net/eastmount/article/details/47825633
+captcha code robot (Tesseract) - http://blog.csdn.net/mrlevo520/article/details/51901579
+CSDN - http://blog.csdn.net/MrLevo520/article/details/51932076
 
