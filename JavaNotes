@@ -25,6 +25,18 @@ java -version
 
 3. java .;path/to/jarfile.jar xxx [String[] args]
 
+More in here:
+https://stackoverflow.com/questions/8949413/how-to-run-java-program-in-terminal-with-external-library-jar
+https://stackoverflow.com/questions/18093928/what-does-could-not-find-or-load-main-class-mean
+
+
+
 
 >>> nested if statement
 // NO GUARDIAN PATTERN in Java!
+
+
+>>> throw exceptions
+https://docs.oracle.com/javase/tutorial/essential/exceptions/throwing.html
+https://beginnersbook.com/2013/04/throw-in-java/
+
