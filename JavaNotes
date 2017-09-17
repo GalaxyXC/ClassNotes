@@ -1,0 +1,30 @@
+Java - Command Line
+
+
+>>>set CLASSPATH:
+update:
+set CLASSPATH=path1;path2;...
+
+delete all:
+set CLASSPATH=
+
+check:
+echo %CLASSPATH%
+
+..either return the path(s) or return "%CLASSPATH%"
+
+
+>>> run java class program with external jar file:
+
+1. make sure 'java' is recognized as a command
+in folder outside java path...
+
+java -version
+
+2. cd.. enter into xxx.class folder
+
+3. java .;path/to/jarfile.jar xxx [String[] args]
+
+
+>>> nested if statement
+// NO GUARDIAN PATTERN in Java!
