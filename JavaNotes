@@ -33,8 +33,8 @@ https://stackoverflow.com/questions/18093928/what-does-could-not-find-or-load-ma
 
 
 >>> nested if statement
-// NO GUARDIAN PATTERN in Java!
-
+GUARDIAN PATTERN in Java - Non-short-circuit Operator: use &&,|| instead of &,|, when need guardian pattern
+https://chortle.ccsu.edu/java5/Notes/chap40/ch40_5.html
 
 >>> throw exceptions
 https://docs.oracle.com/javase/tutorial/essential/exceptions/throwing.html
