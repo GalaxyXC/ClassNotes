@@ -23,7 +23,12 @@ java -version
 
 2. cd.. enter into xxx.class folder
 
-3. java .;path/to/jarfile.jar xxx [String[] args]
+3. java .;path/to/jarfile.jar classname [String[] args]
+
+// compile all file in a folder> javac *.java 
+(some $1 file will be generated for anonymous class)
+
+4. run the compiled class w/ specifying classpath> java -cp FULLPATH CLASSNAME [String[] args]
 
 More in here:
 https://stackoverflow.com/questions/8949413/how-to-run-java-program-in-terminal-with-external-library-jar
